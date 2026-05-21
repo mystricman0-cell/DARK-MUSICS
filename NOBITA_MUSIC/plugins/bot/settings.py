@@ -10,8 +10,8 @@ from pyrogram.types import (
     InputMediaVideo,
 )
 
-from NOBITA_MUSIC import app
-from NOBITA_MUSIC.utils.database import (
+from RONALDO_MUSIC import app
+from RONALDO_MUSIC.utils.database import (
     add_nonadmin_chat,
     get_authuser,
     get_authuser_names,
@@ -27,15 +27,15 @@ from NOBITA_MUSIC.utils.database import (
     skip_off,
     skip_on,
 )
-from NOBITA_MUSIC.utils.decorators.admins import ActualAdminCB
-from NOBITA_MUSIC.utils.decorators.language import language, languageCB
-from NOBITA_MUSIC.utils.inline.settings import (
+from RONALDO_MUSIC.utils.decorators.admins import ActualAdminCB
+from RONALDO_MUSIC.utils.decorators.language import language, languageCB
+from RONALDO_MUSIC.utils.inline.settings import (
     auth_users_markup,
     playmode_users_markup,
     setting_markup,
     vote_mode_markup,
 )
-from NOBITA_MUSIC.utils.inline.start import private_panel
+from RONALDO_MUSIC.utils.inline.start import private_panel
 from config import BANNED_USERS, OWNER_ID, START_IMG_URL
 
 
