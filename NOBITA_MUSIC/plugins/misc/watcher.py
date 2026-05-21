@@ -1,8 +1,8 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
-from NOBITA_MUSIC import app
-from NOBITA_MUSIC.core.call import NOBITA
+from RONALDO_MUSIC import app
+from RONALDO_MUSIC.core.call import RONALDO
 
 welcome = 20
 close = 30
