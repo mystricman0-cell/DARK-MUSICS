@@ -1,12 +1,12 @@
 {
-    "name": "NOBITA_MUSIC",
+    "name": "RONALDO_MUSIC",
     "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
-    "logo": "https://files.catbox.moe/bswmmi.jpg",
+    "logo":"https://files.catbox.moe/72kvx7.png ",
     "keywords": [
     "python3",
     "telegram",
     "bot",
-    "VILLAIN",
+    "DARKXMUSIC",
     "MusicBot",
     "telegram-bot",
     "pyrogram"
