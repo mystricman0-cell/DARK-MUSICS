@@ -1,7 +1,7 @@
 import asyncio
 
-from NOBITA_MUSIC.misc import db
-from NOBITA_MUSIC.utils.database import get_active_chats, is_music_playing
+from RONALDO_MUSIC.misc import db
+from RONALDO_MUSIC.utils.database import get_active_chats, is_music_playing
 
 
 async def timer():
