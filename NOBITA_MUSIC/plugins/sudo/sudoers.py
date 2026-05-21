@@ -2,13 +2,13 @@ from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.types import Message
 from strings import get_string, helpers
-from NOBITA_MUSIC import app
+from RONALDO_MUSIC import app
 from pyrogram.types import InputMediaVideo
-from NOBITA_MUSIC.misc import SUDOERS
-from NOBITA_MUSIC.utils.database import add_sudo, remove_sudo
-from NOBITA_MUSIC.utils.decorators.language import language
-from NOBITA_MUSIC.utils.extraction import extract_user
-from NOBITA_MUSIC.utils.inline import close_markup
+from RONALDO_MUSIC.misc import SUDOERS
+from RONALDO_MUSIC.utils.database import add_sudo, remove_sudo
+from RONALDO_MUSIC.utils.decorators.language import language
+from RONALDO_MUSIC.utils.extraction import extract_user
+from RONALDO_MUSIC.utils.inline import close_markup
 from config import BANNED_USERS, OWNER_ID
 
 
@@ -61,7 +61,7 @@ async def sudoers_list(client, message: Message):
 async def check_sudo_list(client, callback_query: CallbackQuery):
     keyboard = []
     if callback_query.from_user.id not in SUDOERS:
-        return await callback_query.answer(" 𝚴 𝐎 𝐁 𝚰 𝐓 𝚲 ᴋᴀ 𝗟ᴜɴᴅ 𝗟ᴇɢᴀ 😂 \n 𝗦ᴜᴅᴏʟɪsᴛ 𝗗ᴇᴋʜɴᴇ ᴀᴀʏᴀ ᴍᴄ 🤧🖕", show_alert=True)
+        return await callback_query.answer("  LUMND LEGA BOCHLIKE  😂 \n 𝗦ᴜᴅᴏʟɪsᴛ 𝗗ᴇᴋʜɴᴇ ᴀᴀʏᴀ ᴍᴄ 🤧", show_alert=True)
     else:
         user = await app.get_users(OWNER_ID)
 
