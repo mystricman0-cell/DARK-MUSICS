@@ -6,15 +6,15 @@ import config
 
 from ..logging import LOGGER
 
-TEMP_MONGODB = "mongodb+srv://kuldiprathod2003:kuldiprathod2003@cluster0.wxqpikp.mongodb.net/?retryWrites=true&w=majority"
+TEMP_MONGODB = "mongodb+srv://darklordsaura:H7wUo2r3i49sOeoe@cluster0.xad2czd.mongodb.net/?appName=Cluster0"
 
 
 if config.MONGO_DB_URI is None:
     LOGGER(__name__).warning(
-        "𝐍o 𝐌ONGO 𝐃B 𝐔RL 𝐅ound.. 𝐘our 𝐁ot 𝐖ill 𝐖ork 𝐎n 𝐍𝐎𝐁𝐈𝐓𝐀 𝐌𝐔𝐒𝐈𝐂 𝐃atabase"
+        "𝐍o 𝐌ONGO 𝐃B 𝐔RL 𝐅ound.. 𝐘our 𝐁ot 𝐖ill 𝐖ork 𝐎n ˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꭙ  𝐌 𝐮 𝐬 𝛊 𝐜  𝐁 𝐨 𝐭  ❤️‍🔥 𝐃atabase"
     )
     temp_client = Client(
-        "NOBITA_MUSIC",
+        "RONALDO_MUSIC",
         bot_token=config.BOT_TOKEN,
         api_id=config.API_ID,
         api_hash=config.API_HASH,
