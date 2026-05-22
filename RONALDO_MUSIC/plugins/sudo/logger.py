@@ -1,7 +1,7 @@
 from pyrogram import filters
 
 from RONALDO_MUSIC import app
-from ROMALDO_MUSIC.misc import SUDOERS
+from RONALDO_MUSIC.misc import SUDOERS
 from RONALDO_MUSIC.utils.database import add_off, add_on
 from RONALDO_MUSIC.utils.decorators.language import language
 

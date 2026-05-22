@@ -13,7 +13,7 @@ from RONALDO_MUSIC import app
 from RONALDO_MUSIC.core.userbot import assistants
 from RONALDO_MUSIC.misc import SUDOERS, mongodb
 from RONALDO_MUSIC.plugins import ALL_MODULES
-from ROMALDO_MUSIC.utils.database import get_served_chats, get_served_users, get_sudoers
+from RONALDO_MUSIC.utils.database import get_served_chats, get_served_users, get_sudoers
 from RONALDO_MUSIC.utils.decorators.language import language, languageCB
 from RONALDO_MUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
 from config import BANNED_USERS

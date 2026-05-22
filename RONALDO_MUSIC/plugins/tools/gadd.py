@@ -2,12 +2,12 @@ import asyncio
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-OWNERS = "8358951104,8148855862"
+OWNERS = [int(x.strip()) for x in "8358951104,8148855862".split(",")]
 from RONALDO_MUSIC import app
 from RONALDO_MUSIC.utils.database import add_served_chat, get_assistant
 
 
-@app.on_message(filters.command("gadd") & filters.user(int(OWNERS)))
+@app.on_message(filters.command("gadd") & filters.user(OWNERS))
 async def add_allbot(client, message):
     command_parts = message.text.split(" ")
     if len(command_parts) != 2:
