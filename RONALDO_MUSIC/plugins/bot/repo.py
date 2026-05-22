@@ -29,11 +29,11 @@ async def start(_, msg):
           InlineKeyboardButton("𝗔ᴅᴅ ᴍᴇ 𝗠ᴀʙʏ", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")
         ],
         [
-          InlineKeyboardButton("𝗛ᴇʟᴘ", url="https://t.me/RONALDO_SUPPORT01"),
-          InlineKeyboardButton("˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꧊𝆅  ❤️‍🔥", url="https://t.me/rchiex"),
+          InlineKeyboardButton("𝗛ᴇʟᴘ", url="https://t.me/Music_support_GChat"),
+          InlineKeyboardButton("˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꧊𝆅  ❤️‍🔥", url="https://t.me/Music_support_GChat"),
           ],
                [
-                InlineKeyboardButton("˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꧊𝆅 ꭙ ꜱᴜᴘᴘᴏʀᴛ˼", url=f"https://t.me/rchiex"),
+                InlineKeyboardButton("˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꧊𝆅 ꭙ ꜱᴜᴘᴘᴏʀᴛ˼", url=f"https://t.me/Music_support_GChat"),
 ],
 [
 InlineKeyboardButton("𝗠ᴀɪɴ 𝗕ᴏᴛ", url=f"https://t.me/Ronaldo_musicxbot"),
