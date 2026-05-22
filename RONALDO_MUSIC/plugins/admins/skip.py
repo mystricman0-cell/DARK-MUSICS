@@ -50,7 +50,7 @@ async def skip(cli, message: Message, _, chat_id):
                                         ),
                                         reply_markup=close_markup(_),
                                     )
-                                    await VILLAIN.stop_stream(chat_id)
+                                    await NOBITA.stop_stream(chat_id)
                                 except:
                                     return
                                 break
@@ -77,7 +77,7 @@ async def skip(cli, message: Message, _, chat_id):
                     reply_markup=close_markup(_),
                 )
                 try:
-                    return await VILLAIN.stop_stream(chat_id)
+                    return await NOBITA.stop_stream(chat_id)
                 except:
                     return
         except:
@@ -141,7 +141,7 @@ async def skip(cli, message: Message, _, chat_id):
             )
         except Exception:
             try:
-                file_path, direct = await YTB.download(
+                file_path, direct = await YouTube.download(
                     videoid,
                     mystic,
                     videoid=True,
@@ -154,7 +154,7 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             image = None
         try:
-            await RAUSHAN.skip_stream(chat_id, file_path, video=status, image=image)
+            await NOBITA.skip_stream(chat_id, file_path, video=status, image=image)
         except:
             return await mystic.edit_text(_["call_6"])
         button = stream_markup(_, videoid, chat_id)
