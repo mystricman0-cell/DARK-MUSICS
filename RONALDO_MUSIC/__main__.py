@@ -5,7 +5,7 @@ from pyrogram import idle
 
 import config
 from RONALDO_MUSIC import LOGGER, app, userbot
-from RONALDO_MUSIC.core.call import NOBITA
+from RONALDO_MUSIC.core.call import RONALDO 
 from RONALDO_MUSIC.misc import sudo
 from RONALDO_MUSIC.plugins import ALL_MODULES
 from RONALDO_MUSIC.utils.database import get_banned_users, get_gbanned
