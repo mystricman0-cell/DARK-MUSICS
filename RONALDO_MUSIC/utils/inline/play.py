@@ -44,19 +44,19 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
     elif 10 < umm < 20:
         bar = "—◉————————"
     elif 20 <= umm < 30:
-        bar = "——𝚴———————"
+        bar = "——𝐑———————"
     elif 30 <= umm < 40:
         bar = "———𝐎——————"
     elif 40 <= umm < 50:
-        bar = "————𝐁—————"
+        bar = "————𝐍—————"
     elif 50 <= umm < 60:
-        bar = "—————𝚰————"
+        bar = "—————𝐀————"
     elif 60 <= umm < 70:
-        bar = "——————𝐓———"
+        bar = "——————𝐋———"
     elif 70 <= umm < 80:
-        bar = "———————𝚲——"
+        bar = "———————𝐃——"
     elif 80 <= umm < 95:
-        bar = "————————◉—"
+        bar = "————————𝐎—"
     else:
         bar = "—————————◉"
 
@@ -79,7 +79,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
                 text="𝖮ᴡɴᴇʀ 🥀", url="https://t.me/rchiex",
             ),
             InlineKeyboardButton(
-                text="𝖲ᴜᴘᴘᴏʀᴛ 🥀", url="https://t.me/+WLTHgUAvkYVmNTg9",
+                text="𝖲ᴜᴘᴘᴏʀᴛ 🥀", url="https://t.me/Music_support_GChat",
             )
         ],
          [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
