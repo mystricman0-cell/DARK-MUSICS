@@ -1,0 +1,109 @@
+[22-May-26 03:14:26 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:14:26 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:14:26 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:14:26 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:15:07 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:15:07 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:15:07 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:15:07 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:15:41 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:15:41 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:15:41 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:15:41 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:16:44 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:16:44 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:16:44 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:16:44 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:16:45 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:17:25 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:17:25 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:17:25 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:17:25 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:17:25 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:17:31 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:18:16 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:18:16 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:18:16 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:18:16 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:18:17 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:18:23 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:19:03 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:19:03 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:19:03 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:19:03 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:19:04 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:19:10 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:19:12 - INFO] - telethon.crypto.aes - libssl detected, it will be used for encryption
+[22-May-26 03:20:37 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:20:37 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:20:37 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:20:37 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:20:38 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:20:44 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:20:45 - INFO] - telethon.crypto.aes - libssl detected, it will be used for encryption
+[22-May-26 03:20:45 - INFO] - RONALDO_MUSIC.plugins - 𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...
+[22-May-26 03:20:45 - INFO] - RONALDO_MUSIC.core.userbot - Starting Assistants...
+[22-May-26 03:20:46 - ERROR] - RONALDO_MUSIC.core.userbot - Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!
+[22-May-26 03:21:37 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:21:37 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:21:37 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:21:37 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:21:37 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:21:43 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:21:43 - INFO] - telethon.crypto.aes - libssl detected, it will be used for encryption
+[22-May-26 03:21:44 - INFO] - RONALDO_MUSIC.plugins - 𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...
+[22-May-26 03:21:44 - INFO] - RONALDO_MUSIC.core.userbot - Starting Assistants...
+[22-May-26 03:21:45 - ERROR] - RONALDO_MUSIC.core.userbot - Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!
+[22-May-26 03:21:51 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:21:51 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:21:51 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:21:51 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:21:51 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:21:57 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:21:57 - INFO] - telethon.crypto.aes - libssl detected, it will be used for encryption
+[22-May-26 03:21:57 - INFO] - RONALDO_MUSIC.plugins - 𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...
+[22-May-26 03:21:57 - INFO] - RONALDO_MUSIC.core.userbot - Starting Assistants...
+[22-May-26 03:21:59 - WARNING] - RONALDO_MUSIC.core.userbot - Assistant Account 1: Could not send message to log group. Make sure bot is added as admin in the log group.
+[22-May-26 03:21:59 - INFO] - RONALDO_MUSIC.core.userbot - Assistant Started as <a href=tg://user?id=7658444458>Fsh</a>
+[22-May-26 03:21:59 - INFO] - RONALDO_MUSIC.core.call - Starting PyTgCalls Client...
+
+[22-May-26 03:22:00 - INFO] - RONALDO_MUSIC - ╔═════ஜ۩۞۩ஜ════╗
+  ♨️𝗠𝗔𝗗𝗘 𝗕𝗬 ​˹ 𝐃 𝛂 𝐫 𝐤 𝐥 𝐨 𝐫 𝐝 ❤️‍🔥♨️
+╚═════ஜ۩۞۩ஜ════╝
+[22-May-26 03:27:30 - ERROR] - pyrogram.dispatcher - Telegram says: [406 CHANNEL_PRIVATE] - The channel/supergroup is not accessible. (caused by "channels.GetFullChannel")
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/dispatcher.py", line 373, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/runner/workspace/RONALDO_MUSIC/plugins/tools/welcome.py", line 134, in greet_new_member
+    count = await app.get_chat_members_count(chat_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/methods/chats/get_chat_members_count.py", line 61, in get_chat_members_count
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/methods/advanced/invoke.py", line 94, in invoke
+    r = await session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/session/session.py", line 422, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/session/session.py", line 390, in send
+    RPCError.raise_it(result, type(data))
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/errors/rpc_error.py", line 91, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.not_acceptable_406.ChannelPrivate: Telegram says: [406 CHANNEL_PRIVATE] - The channel/supergroup is not accessible. (caused by "channels.GetFullChannel")
+[22-May-26 03:28:01 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 03:28:01 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 03:28:01 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 03:28:01 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 03:28:01 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 03:28:07 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 03:28:08 - INFO] - telethon.crypto.aes - libssl detected, it will be used for encryption
+[22-May-26 03:28:08 - INFO] - RONALDO_MUSIC.plugins - 𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...
+[22-May-26 03:28:08 - INFO] - RONALDO_MUSIC.core.userbot - Starting Assistants...
+[22-May-26 03:28:09 - WARNING] - RONALDO_MUSIC.core.userbot - Assistant Account 1: Could not send message to log group. Make sure bot is added as admin in the log group.
+[22-May-26 03:28:09 - INFO] - RONALDO_MUSIC.core.userbot - Assistant Started as <a href=tg://user?id=7658444458>Fsh</a>
+[22-May-26 03:28:09 - INFO] - RONALDO_MUSIC.core.call - Starting PyTgCalls Client...
+
+[22-May-26 03:28:10 - INFO] - RONALDO_MUSIC - ╔═════ஜ۩۞۩ஜ════╗
+  ♨️𝗠𝗔𝗗𝗘 𝗕𝗬 ​˹ 𝐃 𝛂 𝐫 𝐤 𝐥 𝐨 𝐫 𝐝 ❤️‍🔥♨️
+╚═════ஜ۩۞۩ஜ════╝
