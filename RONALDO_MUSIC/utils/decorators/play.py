@@ -4,6 +4,7 @@ from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
     InviteRequestSent,
+    PeerIdInvalid,
     UserAlreadyParticipant,
     UserNotParticipant,
 )
@@ -120,6 +121,8 @@ def PlayWrapper(command):
                     get = await app.get_chat_member(chat_id, userbot.id)
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
+                except PeerIdInvalid:
+                    raise UserNotParticipant
                 if (
                     get.status == ChatMemberStatus.BANNED
                     or get.status == ChatMemberStatus.RESTRICTED

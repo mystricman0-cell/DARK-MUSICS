@@ -136,3 +136,55 @@ pyrogram.errors.exceptions.not_acceptable_406.ChannelPrivate: Telegram says: [40
 [22-May-26 04:49:27 - INFO] - RONALDO_MUSIC - ╔═════ஜ۩۞۩ஜ════╗
   ♨️ 𝗠𝗔𝗗𝗘 𝗕𝗬 ˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꧊𝆅  ❤️‍🔥 ♨️
 ╚═════ஜ۩۞۩ஜ════╝
+[22-May-26 04:56:45 - ERROR] - RONALDO_MUSIC.plugins.tools.welcome - module 'PIL.Image' has no attribute 'ANTIALIAS'
+[22-May-26 04:57:30 - ERROR] - pyrogram.dispatcher - Telegram says: [403 PEER_ID_INVALID] - The provided peer id is invalid. 
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/methods/advanced/resolve_peer.py", line 67, in resolve_peer
+    return await self.storage.get_peer_by_id(peer_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/storage/sqlite_storage.py", line 187, in get_peer_by_id
+    raise KeyError(f"ID not found: {peer_id}")
+KeyError: 'ID not found: 7658444458'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/methods/advanced/resolve_peer.py", line 137, in resolve_peer
+    return await self.storage.get_peer_by_id(peer_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/storage/sqlite_storage.py", line 187, in get_peer_by_id
+    raise KeyError(f"ID not found: {peer_id}")
+KeyError: 'ID not found: 7658444458'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/dispatcher.py", line 373, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/home/runner/workspace/RONALDO_MUSIC/utils/decorators/play.py", line 120, in wrapper
+    get = await app.get_chat_member(chat_id, userbot.id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/methods/chats/get_chat_member.py", line 56, in get_chat_member
+    user = await self.resolve_peer(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/pyrogram/methods/advanced/resolve_peer.py", line 139, in resolve_peer
+    raise PeerIdInvalid
+pyrogram.errors.exceptions.forbidden_403.PeerIdInvalid: Telegram says: [403 PEER_ID_INVALID] - The provided peer id is invalid. 
+[22-May-26 05:00:13 - INFO] - RONALDO_MUSIC.core.dir - Directories Updated.
+[22-May-26 05:00:13 - INFO] - RONALDO_MUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[22-May-26 05:00:13 - INFO] - RONALDO_MUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[22-May-26 05:00:13 - INFO] - RONALDO_MUSIC.core.bot - Starting Bot...
+[22-May-26 05:00:13 - INFO] - RONALDO_MUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[22-May-26 05:00:14 - INFO] - RONALDO_MUSIC.core.bot - Music Bot Started as Music 
+[22-May-26 05:00:14 - INFO] - __main__ - ✅ Bot client started successfully.
+[22-May-26 05:00:15 - INFO] - telethon.crypto.aes - libssl detected, it will be used for encryption
+[22-May-26 05:00:15 - INFO] - RONALDO_MUSIC.plugins - 𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...
+[22-May-26 05:00:15 - INFO] - RONALDO_MUSIC.core.userbot - Starting Assistants...
+[22-May-26 05:00:16 - WARNING] - RONALDO_MUSIC.core.userbot - Assistant 1: Could not send message to log group.
+[22-May-26 05:00:16 - INFO] - RONALDO_MUSIC.core.userbot - Assistant 1 started as <a href=tg://user?id=7658444458>Fsh</a>
+[22-May-26 05:00:16 - INFO] - RONALDO_MUSIC.core.userbot - Active assistants: [1]
+[22-May-26 05:00:16 - INFO] - RONALDO_MUSIC.core.call - Starting PyTgCalls Client...
+
+[22-May-26 05:00:17 - INFO] - RONALDO_MUSIC - ╔═════ஜ۩۞۩ஜ════╗
+  ♨️ 𝗠𝗔𝗗𝗘 𝗕𝗬 ˹ 𝐑 𝐨 𝐧 𝛂 𝐥 𝐝 𝐨  ꧊𝆅  ❤️‍🔥 ♨️
+╚═════ஜ۩۞۩ஜ════╝
