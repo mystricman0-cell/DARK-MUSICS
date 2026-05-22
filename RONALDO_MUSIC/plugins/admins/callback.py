@@ -28,10 +28,12 @@ from RONALDO_MUSIC.utils.inline import (
 )
 from RONALDO_MUSIC.utils.stream.autoclear import auto_clean
 from RONALDO_MUSIC.utils.thumbnails import get_thumb
+import config
 from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
     STREAM_IMG_URL,
+    SUPPORT_CHAT,
     TELEGRAM_AUDIO_URL,
     TELEGRAM_VIDEO_URL,
     adminlist,
@@ -42,6 +44,7 @@ from strings import get_string
 
 checker = {}
 upvoters = {}
+wrong = {}
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
@@ -156,7 +159,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
-        await DARKLORD.stop_stream(chat_id)
+        await NOBITA.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await CallbackQuery.message.reply_text(
             _["admin_5"].format(mention),
@@ -181,7 +184,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         
                     )
                     try:
-                        return await VILLAIN.stop_stream(chat_id)
+                        return await NOBITA.stop_stream(chat_id)
                     except:
                         return
             except:
@@ -226,7 +229,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             except:
                 image = None
             try:
-                await DARK.skip_stream(chat_id, link, video=status, image=image)
+                await NOBITA.skip_stream(chat_id, link, video=status, image=image)
             except:
                 return await CallbackQuery.message.reply_text(_["call_6"])
             button = telegram_markup(_, chat_id)
@@ -257,7 +260,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 )
             except Exception:
                 try:
-                    file_path, direct = await YTB.download(
+                    file_path, direct = await YouTube.download(
                         videoid,
                         mystic,
                         videoid=True,
@@ -326,7 +329,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        config.SUPPORT_CHAT, title[:23], duration, user
+                        SUPPORT_CHAT, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -341,7 +344,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        config.SUPPORT_CHAT, title[:23], duration, user
+                        SUPPORT_CHAT, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
