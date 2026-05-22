@@ -246,13 +246,20 @@ class YouTubeAPI:
         def audio_dl():
             os.makedirs("downloads", exist_ok=True)
             ydl_optssx = {
-                "format": "bestaudio/best",
+                "format": "bestaudio[ext=m4a]/bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
                 "cookiefile": cookies_file,
+                "nopart": True,
+                "retries": 3,
+                "postprocessors": [{
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192",
+                }],
             }
             downloaded_path = [None]
             def progress_hook(d):
@@ -262,14 +269,15 @@ class YouTubeAPI:
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             vid_id = info.get("id", "unknown")
-            for ext in ["m4a", "webm", "opus", "mp3", "ogg"]:
-                candidate = os.path.join("downloads", f"{vid_id}.{ext}")
-                if os.path.exists(candidate):
-                    return candidate
+            mp3_path = os.path.join("downloads", f"{vid_id}.mp3")
+            if os.path.exists(mp3_path):
+                return mp3_path
             x.download([link])
+            if os.path.exists(mp3_path):
+                return mp3_path
             if downloaded_path[0] and os.path.exists(downloaded_path[0]):
                 return downloaded_path[0]
-            for ext in ["m4a", "webm", "opus", "mp3", "ogg"]:
+            for ext in ["mp3", "m4a", "webm", "opus", "ogg"]:
                 candidate = os.path.join("downloads", f"{vid_id}.{ext}")
                 if os.path.exists(candidate):
                     return candidate
@@ -374,20 +382,6 @@ class YouTubeAPI:
                 else:
                     return
         else:
-            proc = await asyncio.create_subprocess_exec(
-                "yt-dlp",
-                "--cookies", cookies_file,
-                "-g",
-                "-f", "bestaudio",
-                link,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
-            )
-            stdout, stderr = await proc.communicate()
-            if stdout and stdout.decode().strip():
-                downloaded_file = stdout.decode().strip().split("\n")[0]
-                direct = None
-            else:
-                direct = True
-                downloaded_file = await loop.run_in_executor(None, audio_dl)
+            direct = True
+            downloaded_file = await loop.run_in_executor(None, audio_dl)
         return downloaded_file, direct
