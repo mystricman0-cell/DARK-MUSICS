@@ -3,6 +3,8 @@ import traceback
 from functools import wraps
 
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
+
+import config
 from RONALDO_MUSIC import app
 from RONALDO_MUSIC.logging import LOGGER
 
@@ -22,7 +24,6 @@ def split_limits(text):
             small_msg = line
 
     result.append(small_msg)
-
     return result
 
 
@@ -32,7 +33,10 @@ def capture_err(func):
         try:
             return await func(client, message, *args, **kwargs)
         except ChatWriteForbidden:
-            await app.leave_chat(message.chat.id)
+            try:
+                await app.leave_chat(message.chat.id)
+            except Exception:
+                pass
             return
         except Exception as err:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -41,16 +45,18 @@ def capture_err(func):
                 value=exc_obj,
                 tb=exc_tb,
             )
-            error_feedback = split_limits(
-                "**ERROR** | `{}` | `{}`\n\n```{}```\n\n```{}```\n".format(
-                    0 if not message.from_user else message.from_user.id,
-                    0 if not message.chat else message.chat.id,
-                    message.text or message.caption,
-                    "".join(errors),
-                ),
+            error_text = "**ERROR** | `{}` | `{}`\n\n```{}```\n\n```{}```\n".format(
+                0 if not message.from_user else message.from_user.id,
+                0 if not message.chat else message.chat.id,
+                message.text or message.caption,
+                "".join(errors),
             )
-            for x in error_feedback:
-                await app.send_message(LOGGER, x)
+            LOGGER(__name__).error(error_text[:500])
+            try:
+                for x in split_limits(error_text):
+                    await app.send_message(config.LOGGER_ID, x)
+            except Exception:
+                pass
             raise err
 
     return capture
