@@ -51,58 +51,33 @@ async def _clear_(chat_id):
     await remove_active_chat(chat_id)
 
 
+def _make_call_client(name, session_string):
+    return Client(
+        name=name,
+        api_id=config.API_ID,
+        api_hash=config.API_HASH,
+        session_string=session_string,
+        no_updates=True,
+        in_memory=True,
+    )
+
+
 class Call(PyTgCalls):
     def __init__(self):
-        self.userbot1 = Client(
-            name="DARKXMUSIC1",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING1),
-        )
-        self.one = PyTgCalls(
-            self.userbot1,
-            cache_duration=100,
-        )
-        self.userbot2 = Client(
-            name="DARKXMUSIC 2",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING2),
-        )
-        self.two = PyTgCalls(
-            self.userbot2,
-            cache_duration=100,
-        )
-        self.userbot3 = Client(
-            name="DARKXMUSIC3",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING3),
-        )
-        self.three = PyTgCalls(
-            self.userbot3,
-            cache_duration=100,
-        )
-        self.userbot4 = Client(
-            name="DARKXMUSIC4",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING4),
-        )
-        self.four = PyTgCalls(
-            self.userbot4,
-            cache_duration=100,
-        )
-        self.userbot5 = Client(
-            name="DARKXMUSIC5",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING5),
-        )
-        self.five = PyTgCalls(
-            self.userbot5,
-            cache_duration=100,
-        )
+        self.userbot1 = _make_call_client("DARKXMUSIC1", config.STRING1) if config.STRING1 else None
+        self.one = PyTgCalls(self.userbot1, cache_duration=100) if self.userbot1 else None
+
+        self.userbot2 = _make_call_client("DARKXMUSIC2", config.STRING2) if config.STRING2 else None
+        self.two = PyTgCalls(self.userbot2, cache_duration=100) if self.userbot2 else None
+
+        self.userbot3 = _make_call_client("DARKXMUSIC3", config.STRING3) if config.STRING3 else None
+        self.three = PyTgCalls(self.userbot3, cache_duration=100) if self.userbot3 else None
+
+        self.userbot4 = _make_call_client("DARKXMUSIC4", config.STRING4) if config.STRING4 else None
+        self.four = PyTgCalls(self.userbot4, cache_duration=100) if self.userbot4 else None
+
+        self.userbot5 = _make_call_client("DARKXMUSIC5", config.STRING5) if config.STRING5 else None
+        self.five = PyTgCalls(self.userbot5, cache_duration=100) if self.userbot5 else None
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -121,31 +96,11 @@ class Call(PyTgCalls):
             pass
 
     async def stop_stream_force(self, chat_id: int):
-        try:
-            if config.STRING1:
-                await self.one.leave_group_call(chat_id)
-        except:
-            pass
-        try:
-            if config.STRING2:
-                await self.two.leave_group_call(chat_id)
-        except:
-            pass
-        try:
-            if config.STRING3:
-                await self.three.leave_group_call(chat_id)
-        except:
-            pass
-        try:
-            if config.STRING4:
-                await self.four.leave_group_call(chat_id)
-        except:
-            pass
-        try:
-            if config.STRING5:
-                await self.five.leave_group_call(chat_id)
-        except:
-            pass
+        for c in self._active_clients():
+            try:
+                await c.leave_group_call(chat_id)
+            except:
+                pass
         try:
             await _clear_(chat_id)
         except:
@@ -577,59 +532,41 @@ class Call(PyTgCalls):
 
     async def ping(self):
         pings = []
-        if config.STRING1:
-            pings.append(await self.one.ping)
-        if config.STRING2:
-            pings.append(await self.two.ping)
-        if config.STRING3:
-            pings.append(await self.three.ping)
-        if config.STRING4:
-            pings.append(await self.four.ping)
-        if config.STRING5:
-            pings.append(await self.five.ping)
+        for c in self._active_clients():
+            try:
+                pings.append(await c.ping)
+            except:
+                pass
+        if not pings:
+            return "0"
         return str(round(sum(pings) / len(pings), 3))
+
+    def _active_clients(self):
+        return [c for c in [self.one, self.two, self.three, self.four, self.five] if c is not None]
 
     async def start(self):
         LOGGER(__name__).info("Starting PyTgCalls Client...\n")
-        if config.STRING1:
-            await self.one.start()
-        if config.STRING2:
-            await self.two.start()
-        if config.STRING3:
-            await self.three.start()
-        if config.STRING4:
-            await self.four.start()
-        if config.STRING5:
-            await self.five.start()
+        for client in self._active_clients():
+            await client.start()
 
     async def decorators(self):
-        @self.one.on_kicked()
-        @self.two.on_kicked()
-        @self.three.on_kicked()
-        @self.four.on_kicked()
-        @self.five.on_kicked()
-        @self.one.on_closed_voice_chat()
-        @self.two.on_closed_voice_chat()
-        @self.three.on_closed_voice_chat()
-        @self.four.on_closed_voice_chat()
-        @self.five.on_closed_voice_chat()
-        @self.one.on_left()
-        @self.two.on_left()
-        @self.three.on_left()
-        @self.four.on_left()
-        @self.five.on_left()
+        active = self._active_clients()
+        if not active:
+            return
+
         async def stream_services_handler(_, chat_id: int):
             await self.stop_stream(chat_id)
 
-        @self.one.on_stream_end()
-        @self.two.on_stream_end()
-        @self.three.on_stream_end()
-        @self.four.on_stream_end()
-        @self.five.on_stream_end()
         async def stream_end_handler1(client, update: Update):
             if not isinstance(update, StreamAudioEnded):
                 return
             await self.change_stream(client, update.chat_id)
+
+        for c in active:
+            c.on_kicked()(stream_services_handler)
+            c.on_closed_voice_chat()(stream_services_handler)
+            c.on_left()(stream_services_handler)
+            c.on_stream_end()(stream_end_handler1)
 
 
 NOBITA = Call()
