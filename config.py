@@ -59,6 +59,9 @@ UPSTREAM_REPO = getenv(
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv("GIT_TOKEN", None)
 
+# YouTube Data API v3 key (optional, for enhanced YouTube features)
+YOUTUBE_API_KEY = getenv("YOUTUBE_API_KEY", None)
+
 SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/RONALDO_SUPPORT01")
 SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/RONALDO_SUPPORT01")
 
