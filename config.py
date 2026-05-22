@@ -46,7 +46,7 @@ OWNER_ID = _safe_int("OWNER_ID", 5536473064)
 
 
 # Bot privacy link
-PRIVACY_LINK = getenv("PRIVACY_LINK", "https://t.me/RONALDO_SUPPORT01")
+PRIVACY_LINK = getenv("PRIVACY_LINK", "https://t.me/Music_support_GChat")
 
 # Heroku vars (optional — only needed if deploying on Heroku)
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
@@ -62,8 +62,8 @@ GIT_TOKEN = getenv("GIT_TOKEN", None)
 # YouTube Data API v3 key (optional, for enhanced YouTube features)
 YOUTUBE_API_KEY = getenv("YOUTUBE_API_KEY", None)
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/RONALDO_SUPPORT01")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/RONALDO_SUPPORT01")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/Music_support_GChat")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/Music_support_GChat")
 
 # Auto leave assistant after interval
 AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", False))
