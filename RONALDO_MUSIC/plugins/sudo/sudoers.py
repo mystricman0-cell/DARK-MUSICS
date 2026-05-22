@@ -55,7 +55,7 @@ async def sudoers_list(client, message: Message):
   
     try:
         await message.reply_photo(
-            photo="https://telegra.ph/file/4e89ccb36bde6833e9ed0.mp4",
+            photo="https://files.catbox.moe/72kvx7.png",
             caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n**» ɴᴏᴛᴇ:**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ",
             reply_markup=reply_markups,
         )
