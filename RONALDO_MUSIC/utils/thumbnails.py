@@ -143,6 +143,6 @@ async def get_thumb(videoid):
 
 # 🧑‍💻 Developer : @TelephoneVirus
 # 🔗 Source link : https://github.com/iamnobita09/RONALDO_MUSIC.git
-# 📢 Telegram channel : https://t.me/NOB1TA_SUPPORT
+# 📢 Telegram channel : https://t.me/TelephoneVirus
 # =======================================================
         
