@@ -160,11 +160,12 @@ async def del_back_playlist(client, CallbackQuery, _):
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
-        await RONALDO.stop_stream(chat_id)
         await set_loop(chat_id, 0)
-        await CallbackQuery.message.reply_text(
-            _["admin_5"].format(mention),
-        )
+        try:
+            await CallbackQuery.message.delete()
+        except Exception:
+            pass
+        await _play_next_or_stop(chat_id, mention, None, _)
     elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
         if command == "Skip":
