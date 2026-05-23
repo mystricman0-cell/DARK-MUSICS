@@ -6,6 +6,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from RONALDO_MUSIC import YouTube, app
 from RONALDO_MUSIC.core.call import RONALDO
 from RONALDO_MUSIC.misc import SUDOERS, db
+from RONALDO_MUSIC.plugins.admins.stop import _play_next_or_stop, _send_closed_msg
 from RONALDO_MUSIC.utils.database import (
     get_active_chats,
     get_lang,
