@@ -432,9 +432,11 @@ class Call(PyTgCalls):
                         user,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
+                    has_spoiler=True,
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+                await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
             elif "vid_" in queued:
                 mystic = await app.send_message(original_chat_id, _["call_7"])
                 try:
@@ -491,9 +493,11 @@ class Call(PyTgCalls):
                         user,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
+                    has_spoiler=True,
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
+                await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
             elif "index_" in queued:
                 stream = (
                     MediaStream(
@@ -524,9 +528,11 @@ class Call(PyTgCalls):
                     photo=config.STREAM_IMG_URL,
                     caption=_["stream_2"].format(user),
                     reply_markup=InlineKeyboardMarkup(button),
+                    has_spoiler=True,
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+                await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
             else:
                 if video:
                     stream = MediaStream(
