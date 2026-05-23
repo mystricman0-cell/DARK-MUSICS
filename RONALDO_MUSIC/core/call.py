@@ -417,7 +417,7 @@ class Call(PyTgCalls):
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
-                await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
+                await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
             elif "vid_" in queued:
                 mystic = await app.send_message(original_chat_id, _["call_7"])
                 try:
@@ -478,7 +478,7 @@ class Call(PyTgCalls):
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
-                await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
+                await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
             elif "index_" in queued:
                 stream = (
                     MediaStream(
@@ -513,7 +513,7 @@ class Call(PyTgCalls):
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
-                await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
+                await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
             else:
                 if video:
                     stream = MediaStream(
@@ -554,7 +554,7 @@ class Call(PyTgCalls):
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
-                    await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
+                    await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
                 elif videoid == "soundcloud":
                     button = telegram_markup(_, chat_id)
                     run = await app.send_photo(
@@ -568,7 +568,7 @@ class Call(PyTgCalls):
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
-                    await _log_now_playing(original_chat_id, title, user, "AUDIO")
+                    await send_logger_card(chat_id, original_chat_id, title, user, "AUDIO")
                 else:
                     img = await get_thumb(videoid)
                     button = stream_markup(_, videoid, chat_id)
@@ -586,7 +586,7 @@ class Call(PyTgCalls):
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "stream"
-                    await _log_now_playing(original_chat_id, title, user, "VIDEO" if video else "AUDIO")
+                    await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
 
     async def ping(self):
         pings = []
