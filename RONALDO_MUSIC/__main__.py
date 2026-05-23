@@ -33,19 +33,20 @@ except Exception:
     pass
 
 try:
-    # 2. ToAsync: ntgcalls binding methods return asyncio.Future in 1.2.0
-    #    Patch ToAsync._run to await Future/coroutine results directly.
+    # 2. ToAsync: ntgcalls 1.2.x methods return asyncio.Future directly
+    #    instead of blocking values. run_in_executor can't await a Future
+    #    from a thread, so we patch _run on the class itself (not replace
+    #    the class) so all already-imported references are also fixed.
     import asyncio as _asyncio
     import pytgcalls.to_async as _ta
 
-    class _PatchedToAsync(_ta.ToAsync):
-        async def _run(self):
-            result = self._function(*self._function_args)
-            if _asyncio.isfuture(result) or _asyncio.iscoroutine(result):
-                return await result
-            return result
+    async def _patched_to_async_run(self):
+        result = self._function(*self._function_args)
+        if _asyncio.isfuture(result) or _asyncio.iscoroutine(result):
+            return await result
+        return result
 
-    _ta.ToAsync = _PatchedToAsync
+    _ta.ToAsync._run = _patched_to_async_run
 except Exception:
     pass
 
