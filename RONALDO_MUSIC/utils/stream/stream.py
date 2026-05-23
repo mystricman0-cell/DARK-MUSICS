@@ -11,6 +11,19 @@ from RONALDO_MUSIC.core.call import RONALDO
 from RONALDO_MUSIC.misc import db
 
 
+from RONALDO_MUSIC.utils.database import add_active_video_chat, is_active_chat
+from RONALDO_MUSIC.utils.exceptions import AssistantErr
+from RONALDO_MUSIC.utils.inline import (
+    aq_markup,
+    close_markup,
+    stream_markup,
+    telegram_markup,
+)
+from RONALDO_MUSIC.utils.pastebin import RONALDOBin
+from RONALDO_MUSIC.utils.stream.queue import put_queue, put_queue_index
+from RONALDO_MUSIC.utils.thumbnails import get_thumb
+
+
 async def _log_now_playing(original_chat_id, title, user_name, stype="AUDIO"):
     try:
         chat = await app.get_chat(original_chat_id)
@@ -29,17 +42,6 @@ async def _log_now_playing(original_chat_id, title, user_name, stype="AUDIO"):
         )
     except Exception:
         pass
-from RONALDO_MUSIC.utils.database import add_active_video_chat, is_active_chat
-from RONALDO_MUSIC.utils.exceptions import AssistantErr
-from RONALDO_MUSIC.utils.inline import (
-    aq_markup,
-    close_markup,
-    stream_markup,
-    telegram_markup,
-)
-from RONALDO_MUSIC.utils.pastebin import RONALDOBin
-from RONALDO_MUSIC.utils.stream.queue import put_queue, put_queue_index
-from RONALDO_MUSIC.utils.thumbnails import get_thumb
 
 
 async def stream(
