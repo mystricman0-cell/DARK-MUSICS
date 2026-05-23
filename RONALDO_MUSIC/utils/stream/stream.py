@@ -7,9 +7,11 @@ from pyrogram.types import InlineKeyboardMarkup
 
 import config
 from RONALDO_MUSIC import Carbon, YouTube, app
+from RONALDO_MUSIC.core.call import RONALDO
+from RONALDO_MUSIC.misc import db
 
 
-async def _log_now_playing(chat_id, original_chat_id, title, user_name, stype="AUDIO"):
+async def _log_now_playing(original_chat_id, title, user_name, stype="AUDIO"):
     try:
         chat = await app.get_chat(original_chat_id)
         group_name = getattr(chat, "title", None) or "Private Chat"
@@ -27,8 +29,6 @@ async def _log_now_playing(chat_id, original_chat_id, title, user_name, stype="A
         )
     except Exception:
         pass
-from RONALDO_MUSIC.core.call import RONALDO
-from RONALDO_MUSIC.misc import db
 from RONALDO_MUSIC.utils.database import add_active_video_chat, is_active_chat
 from RONALDO_MUSIC.utils.exceptions import AssistantErr
 from RONALDO_MUSIC.utils.inline import (
