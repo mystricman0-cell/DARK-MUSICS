@@ -4,7 +4,6 @@ from RONALDO_MUSIC.core.git import git
 from RONALDO_MUSIC.core.userbot import Userbot
 from RONALDO_MUSIC.misc import dbb, heroku
 
-from SafoneAPI import SafoneAPI
 from .logging import LOGGER
 
 dirr()
@@ -13,8 +12,13 @@ dbb()
 heroku()
 
 app = RONALDO()
-api = SafoneAPI()
 userbot = Userbot()
+
+try:
+    from SafoneAPI import SafoneAPI
+    api = SafoneAPI()
+except Exception:
+    api = None
 
 
 from .platforms import *
