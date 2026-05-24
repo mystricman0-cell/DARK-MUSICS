@@ -53,33 +53,23 @@ async def _clear_(chat_id):
     await remove_active_chat(chat_id)
 
 
-def _make_call_client(name, session_string):
-    return Client(
-        name=name,
-        api_id=config.API_ID,
-        api_hash=config.API_HASH,
-        session_string=session_string,
-        no_updates=True,
-        in_memory=True,
-    )
-
-
 class Call(PyTgCalls):
     def __init__(self):
-        self.userbot1 = _make_call_client("DARKXMUSIC1", config.STRING1) if config.STRING1 else None
-        self.one = PyTgCalls(self.userbot1, cache_duration=100) if self.userbot1 else None
+        self._userbot = None
+        self.one = None
+        self.two = None
+        self.three = None
+        self.four = None
+        self.five = None
 
-        self.userbot2 = _make_call_client("DARKXMUSIC2", config.STRING2) if config.STRING2 else None
-        self.two = PyTgCalls(self.userbot2, cache_duration=100) if self.userbot2 else None
-
-        self.userbot3 = _make_call_client("DARKXMUSIC3", config.STRING3) if config.STRING3 else None
-        self.three = PyTgCalls(self.userbot3, cache_duration=100) if self.userbot3 else None
-
-        self.userbot4 = _make_call_client("DARKXMUSIC4", config.STRING4) if config.STRING4 else None
-        self.four = PyTgCalls(self.userbot4, cache_duration=100) if self.userbot4 else None
-
-        self.userbot5 = _make_call_client("DARKXMUSIC5", config.STRING5) if config.STRING5 else None
-        self.five = PyTgCalls(self.userbot5, cache_duration=100) if self.userbot5 else None
+    def setup_assistants(self, userbot):
+        """Reuse already-started Pyrogram clients from Userbot to avoid AuthKeyDuplicated."""
+        self._userbot = userbot
+        self.one   = PyTgCalls(userbot.one,   cache_duration=100) if userbot.one   else None
+        self.two   = PyTgCalls(userbot.two,   cache_duration=100) if userbot.two   else None
+        self.three = PyTgCalls(userbot.three, cache_duration=100) if userbot.three else None
+        self.four  = PyTgCalls(userbot.four,  cache_duration=100) if userbot.four  else None
+        self.five  = PyTgCalls(userbot.five,  cache_duration=100) if userbot.five  else None
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -255,17 +245,16 @@ class Call(PyTgCalls):
         await assistant.leave_group_call(config.LOGGER_ID)
 
     def _get_userbot(self, assistant):
-        if assistant is self.one:
-            return self.userbot1
-        elif assistant is self.two:
-            return self.userbot2
-        elif assistant is self.three:
-            return self.userbot3
-        elif assistant is self.four:
-            return self.userbot4
-        elif assistant is self.five:
-            return self.userbot5
-        return None
+        if self._userbot is None:
+            return None
+        mapping = {
+            id(self.one):   self._userbot.one,
+            id(self.two):   self._userbot.two,
+            id(self.three): self._userbot.three,
+            id(self.four):  self._userbot.four,
+            id(self.five):  self._userbot.five,
+        }
+        return mapping.get(id(assistant))
 
     async def join_call(
         self,
@@ -340,6 +329,9 @@ class Call(PyTgCalls):
         popped = None
         loop = await get_loop(chat_id)
         try:
+            if not check:
+                await _clear_(chat_id)
+                return await client.leave_group_call(chat_id)
             if loop == 0:
                 popped = check.pop(0)
             else:
@@ -349,7 +341,8 @@ class Call(PyTgCalls):
             if not check:
                 await _clear_(chat_id)
                 return await client.leave_group_call(chat_id)
-        except:
+        except Exception as e:
+            LOGGER(__name__).warning(f"change_stream queue error for {chat_id}: {e}")
             try:
                 await _clear_(chat_id)
                 return await client.leave_group_call(chat_id)
@@ -605,7 +598,10 @@ class Call(PyTgCalls):
     async def start(self):
         LOGGER(__name__).info("Starting PyTgCalls Client...\n")
         for client in self._active_clients():
-            await client.start()
+            try:
+                await client.start()
+            except Exception as e:
+                LOGGER(__name__).warning(f"PyTgCalls start skipped (already running?): {e}")
 
     async def decorators(self):
         active = self._active_clients()
