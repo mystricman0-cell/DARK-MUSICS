@@ -24,14 +24,15 @@ async def sg(client: Client, message: Message):
             return await lol.edit("<code>Please specify a valid user!</code>")
     bo = ["sangmata_bot", "sangmata_beta_bot"]
     sg = random.choice(bo)
-    if 1 in assistants:
-        ubot = us.one
-    
+    if 1 not in assistants:
+        return await lol.edit("<code>No assistant available!</code>")
+    ubot = us.one
+
     try:
         a = await ubot.send_message(sg, f"{user.id}")
         await a.delete()
     except Exception as e:
-        return await lol.edit(e)
+        return await lol.edit(f"<code>{e}</code>")
     await asyncio.sleep(1)
     
     async for stalk in ubot.search_messages(a.chat.id):
