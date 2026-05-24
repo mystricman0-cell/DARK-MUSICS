@@ -268,9 +268,8 @@ async def init():
         importlib.import_module("RONALDO_MUSIC.plugins" + all_module)
     LOGGER("RONALDO_MUSIC.plugins").info("𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...")
 
-    await userbot.start()
-    RONALDO.setup_assistants(userbot)
     await RONALDO.start()
+    await userbot.start()
     await RONALDO.decorators()
 
     asyncio.get_event_loop().create_task(_auto_push_github())
