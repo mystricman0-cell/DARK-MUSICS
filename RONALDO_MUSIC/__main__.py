@@ -74,7 +74,7 @@ except Exception:
 
 import httpx
 from pyrogram import Client, idle
-from pyrogram.errors import AuthKeyDuplicated, FloodWait
+from pyrogram.errors import AuthKeyDuplicated, FloodWait, AuthKeyUnregistered
 
 import config
 from RONALDO_MUSIC import LOGGER, app, userbot
@@ -332,14 +332,6 @@ async def init():
             BANNED_USERS.add(user_id)
     except Exception:
         pass
-
-    sessions_ok = await _validate_sessions()
-    if not sessions_ok:
-        LOGGER(__name__).error(
-            "❌ All STRING_SESSION values are invalid! "
-            "Please regenerate from @StringFatherBot and update Railway variables."
-        )
-        return
 
     started = await _start_bot_with_retry()
     if not started:
