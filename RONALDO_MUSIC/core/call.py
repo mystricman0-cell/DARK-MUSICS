@@ -307,9 +307,28 @@ class Call(PyTgCalls):
                 stream,
             )
         except NoActiveGroupCall:
-            raise AssistantErr(_["call_8"])
+            # Auto-start the voice chat via MTProto, then retry
+            try:
+                import random as _rnd
+                from pyrogram.raw.functions.phone import CreateGroupCall as _CGA
+                peer = await app.resolve_peer(chat_id)
+                await app.invoke(_CGA(peer=peer, random_id=_rnd.randint(1, 2**31 - 1)))
+                await asyncio.sleep(2)
+                try:
+                    await assistant.join_group_call(chat_id, stream)
+                except AlreadyJoinedError:
+                    pass
+            except AlreadyJoinedError:
+                pass
+            except Exception as e_cga:
+                LOGGER(__name__).error(f"Auto-create voice chat failed for {chat_id}: {e_cga}")
+                raise AssistantErr(_["call_8"])
         except AlreadyJoinedError:
-            raise AssistantErr(_["call_9"])
+            # Already in voice chat — switch stream instead of raising error
+            try:
+                await assistant.change_stream(chat_id, stream)
+            except Exception:
+                pass
         except Exception as e:
             LOGGER(__name__).error(f"join_group_call failed for {chat_id}: {type(e).__name__}: {e}")
             try:
@@ -318,7 +337,10 @@ class Call(PyTgCalls):
             except NoActiveGroupCall:
                 raise AssistantErr(_["call_8"])
             except AlreadyJoinedError:
-                raise AssistantErr(_["call_9"])
+                try:
+                    await assistant.change_stream(chat_id, stream)
+                except Exception:
+                    pass
             except Exception as e2:
                 LOGGER(__name__).error(f"join_group_call retry failed for {chat_id}: {type(e2).__name__}: {e2}")
                 raise AssistantErr(f"{_['call_10']}\n\n<code>{type(e2).__name__}: {e2}</code>")
@@ -452,7 +474,7 @@ class Call(PyTgCalls):
                         videoid=True,
                         video=True if str(streamtype) == "video" else False,
                     )
-                except:
+                except Exception:
                     try:
                         file_path, direct = await YouTube.download(
                             videoid,
@@ -460,10 +482,32 @@ class Call(PyTgCalls):
                             videoid=True,
                             video=True if str(streamtype) == "video" else False,
                         )
-                    except:
-                        return await mystic.edit_text(
-                            _["call_6"], disable_web_page_preview=True
-                        )
+                    except Exception:
+                        # Download failed twice — skip this track, try next
+                        try:
+                            await mystic.delete()
+                        except Exception:
+                            pass
+                        try:
+                            check.pop(0)
+                        except Exception:
+                            pass
+                        if check:
+                            try:
+                                await app.send_message(
+                                    original_chat_id,
+                                    "❍ ᴛʀᴀᴄᴋ ᴅᴏᴡɴʟᴏᴀᴅ ꜰᴀɪʟᴇᴅ, ꜱᴋɪᴘᴘɪɴɢ ᴛᴏ ɴᴇxᴛ ᴛʀᴀᴄᴋ...",
+                                )
+                            except Exception:
+                                pass
+                            return await self.change_stream(client, chat_id)
+                        else:
+                            await _clear_(chat_id)
+                            try:
+                                await client.leave_group_call(chat_id)
+                            except Exception:
+                                pass
+                            return
                 if video:
                     stream = MediaStream(
                         file_path,
