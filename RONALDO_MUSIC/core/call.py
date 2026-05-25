@@ -342,32 +342,43 @@ class Call(PyTgCalls):
         try:
             if not check:
                 await _clear_(chat_id)
-                return await client.leave_group_call(chat_id)
+                try:
+                    await client.leave_group_call(chat_id)
+                except Exception:
+                    pass
+                return
             if loop == 0:
                 popped = check.pop(0)
             else:
                 loop = loop - 1
                 await set_loop(chat_id, loop)
-            await auto_clean(popped)
+            if popped:
+                await auto_clean(popped)
             if not check:
                 await _clear_(chat_id)
-                return await client.leave_group_call(chat_id)
+                try:
+                    await client.leave_group_call(chat_id)
+                except Exception:
+                    pass
+                return
         except Exception as e:
             LOGGER(__name__).warning(f"change_stream queue error for {chat_id}: {e}")
             try:
                 await _clear_(chat_id)
-                return await client.leave_group_call(chat_id)
-            except:
-                return
-        else:
+                await client.leave_group_call(chat_id)
+            except Exception:
+                pass
+            return
+
+        try:
             queued = check[0]["file"]
             language = await get_lang(chat_id)
             _ = get_string(language)
-            title = (check[0]["title"]).title()
-            user = check[0]["by"]
-            original_chat_id = check[0]["chat_id"]
-            streamtype = check[0]["streamtype"]
-            videoid = check[0]["vidid"]
+            title = (check[0].get("title", "Unknown")).title()
+            user = check[0].get("by", "Unknown")
+            original_chat_id = check[0].get("chat_id", chat_id)
+            streamtype = check[0].get("streamtype", "audio")
+            videoid = check[0].get("vidid", "unknown")
             db[chat_id][0]["played"] = 0
             exis = (check[0]).get("old_dur")
             if exis:
@@ -376,6 +387,16 @@ class Call(PyTgCalls):
                 db[chat_id][0]["speed_path"] = None
                 db[chat_id][0]["speed"] = 1.0
             video = True if str(streamtype) == "video" else False
+        except Exception as e:
+            LOGGER(__name__).error(f"change_stream metadata error for {chat_id}: {e}")
+            try:
+                await _clear_(chat_id)
+                await client.leave_group_call(chat_id)
+            except Exception:
+                pass
+            return
+
+        try:
             if "live_" in queued:
                 n, link = await YouTube.video(videoid, True)
                 if n == 0:
@@ -591,6 +612,15 @@ class Call(PyTgCalls):
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "stream"
                     await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
+        except Exception as e:
+            LOGGER(__name__).error(f"change_stream playback error for {chat_id}: {type(e).__name__}: {e}")
+            try:
+                await app.send_message(
+                    original_chat_id,
+                    text=f"❍ ꜱᴛʀᴇᴀᴍ ᴇʀʀᴏʀ: <code>{type(e).__name__}</code>\n\nᴜsᴇ /skip ᴛᴏ ᴘʟᴀʏ ɴᴇxᴛ ᴛʀᴀᴄᴋ ᴏʀ /stop ᴛᴏ ᴇɴᴅ."
+                )
+            except Exception:
+                pass
 
     async def ping(self):
         pings = []
