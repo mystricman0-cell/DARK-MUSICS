@@ -11,6 +11,50 @@ from youtubesearchpython.__future__ import VideosSearch
 from RONALDO_MUSIC.utils.database import is_on_off
 from RONALDO_MUSIC.utils.formatters import time_to_seconds
 
+# Spotify search fallback — used when YouTube throttles
+async def _spotify_search_track(query: str) -> dict | None:
+    """Search Spotify for a track and return YT-compatible dict using title+artist."""
+    try:
+        import config
+        if not config.SPOTIFY_CLIENT_ID or not config.SPOTIFY_CLIENT_SECRET:
+            return None
+        import spotipy
+        from spotipy.oauth2 import SpotifyClientCredentials
+        loop = asyncio.get_running_loop()
+
+        def _fetch():
+            sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
+                client_id=config.SPOTIFY_CLIENT_ID,
+                client_secret=config.SPOTIFY_CLIENT_SECRET,
+            ))
+            results = sp.search(q=query, limit=1, type="track")
+            items = results.get("tracks", {}).get("items", [])
+            if not items:
+                return None
+            track = items[0]
+            name = track["name"]
+            artists = " ".join(a["name"] for a in track["artists"])
+            duration_ms = track["duration_ms"]
+            duration_sec = duration_ms // 1000
+            duration_min = f"{duration_sec // 60}:{duration_sec % 60:02d}"
+            thumb = ""
+            images = track.get("album", {}).get("images", [])
+            if images:
+                thumb = images[0]["url"]
+            return {
+                "title": f"{name} {artists}",
+                "search_query": f"{name} {artists}",
+                "duration_min": duration_min,
+                "thumb": thumb,
+                "vidid": None,
+                "link": None,
+                "_spotify": True,
+            }
+
+        return await asyncio.wait_for(loop.run_in_executor(None, _fetch), timeout=10)
+    except Exception:
+        return None
+
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -172,6 +216,19 @@ class YouTubeAPI:
             dur_sec = int(time_to_seconds(dur_min)) if info["duration_min"] else 0
             return info["title"], dur_min, dur_sec, info["thumb"], info["vidid"]
 
+        # Spotify fallback — search by title via Spotify, then re-fetch from YT
+        sp_info = await _spotify_search_track(link)
+        if sp_info:
+            yt_retry = await _ydl_search(sp_info["search_query"], is_url=False)
+            if yt_retry:
+                dur_min = yt_retry["duration_min"] or "0:00"
+                dur_sec = int(time_to_seconds(dur_min)) if yt_retry["duration_min"] else 0
+                return yt_retry["title"], dur_min, dur_sec, yt_retry["thumb"], yt_retry["vidid"]
+            dur_min = sp_info.get("duration_min", "0:00")
+            dur_sec = int(time_to_seconds(dur_min)) if dur_min else 0
+            fake_vidid = "spotify_" + re.sub(r"\W+", "_", sp_info["title"])[:20]
+            return sp_info["title"], dur_min, dur_sec, sp_info.get("thumb", ""), fake_vidid
+
         raise Exception("Failed to fetch track details from YouTube")
 
     async def title(self, link: str, videoid: Union[bool, str] = None):
@@ -263,11 +320,23 @@ class YouTubeAPI:
             }
             return track_details, result["id"]
 
-        # yt-dlp fallback — always works
+        # yt-dlp fallback
         is_url = bool(_YT_REGEX.search(link))
         info = await _ydl_search(link, is_url=is_url)
         if info:
             return info, info["vidid"]
+
+        # Spotify search fallback — when YT throttles/blocks
+        sp_info = await _spotify_search_track(link)
+        if sp_info:
+            # Use Spotify title to search YT one more time
+            yt_retry = await _ydl_search(sp_info["search_query"], is_url=False)
+            if yt_retry:
+                return yt_retry, yt_retry["vidid"]
+            # Return Spotify metadata with a dummy vidid for display
+            sp_info["vidid"] = "spotify_" + re.sub(r"\W+", "_", sp_info["title"])[:20]
+            sp_info["link"] = f"https://www.youtube.com/results?search_query={sp_info['search_query'].replace(' ', '+')}"
+            return sp_info, sp_info["vidid"]
 
         raise Exception("Could not find track. Try a different query.")
 
