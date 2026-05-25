@@ -29,6 +29,7 @@ from RONALDO_MUSIC.utils.database import (
     get_loop,
     group_assistant,
     is_autoend,
+    is_autoplay,
     music_on,
     remove_active_chat,
     remove_active_video_chat,
@@ -44,6 +45,129 @@ from strings import get_string
 
 autoend = {}
 counter = {}
+
+# ── Autoplay song pool ─────────────────────────────────────────────────────────
+_AUTOPLAY_POOL = [
+    "Arijit Singh best songs 2024",
+    "Best Bollywood love songs 2024",
+    "Romantic Hindi songs 2024",
+    "Best punjabi songs 2024",
+    "Top Hindi hits 2024",
+    "Jubin Nautiyal songs 2024",
+    "Atif Aslam romantic songs",
+    "Best love songs Hindi 2024",
+    "Shreya Ghoshal hits",
+    "AR Rahman best songs",
+    "Trending Bollywood 2024",
+    "Filhaal song B Praak",
+    "Kesariya Arijit Singh",
+    "Tum Hi Aana Marjaavaan",
+    "Raataan Lambiyan",
+    "Tera Ban Jaunga",
+    "Shayad Love Aaj Kal",
+    "Ik Vaari Aa Raabta",
+    "Bekhayali Kabir Singh",
+    "Teri Ban Jaunga Akhil",
+]
+
+import random as _random
+
+
+async def _autoplay_next(client, chat_id: int, original_chat_id: int):
+    """Fetch and play a random song from the autoplay pool when queue is empty."""
+    from RONALDO_MUSIC.utils.stream.queue import put_queue
+    from RONALDO_MUSIC.utils.thumbnails import get_thumb
+    from RONALDO_MUSIC.utils.inline.play import stream_markup, telegram_markup
+    from pyrogram.types import InlineKeyboardMarkup
+
+    query = _random.choice(_AUTOPLAY_POOL)
+    try:
+        details, vidid = await YouTube.track(query)
+    except Exception:
+        raise
+
+    title = details.get("title", query)[:50]
+    duration_min = details.get("duration_min", "0:00") or "0:00"
+
+    # Download
+    file_path = None
+    try:
+        mystic = await app.send_message(original_chat_id,
+            f"🎵 ᴀᴜᴛᴏᴘʟᴀʏ: <b>{title}</b>\n⏳ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...")
+    except Exception:
+        mystic = None
+
+    try:
+        file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=False)
+    except Exception:
+        try:
+            file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=False)
+        except Exception:
+            if mystic:
+                try:
+                    await mystic.delete()
+                except Exception:
+                    pass
+            raise
+
+    stream = __import__("pytgcalls.types", fromlist=["MediaStream"]).MediaStream
+    audio_q = __import__("pytgcalls.types", fromlist=["AudioQuality"]).AudioQuality
+    try:
+        from pytgcalls.types import MediaStream, AudioQuality
+        s = MediaStream(
+            file_path,
+            audio_parameters=AudioQuality.HIGH,
+            audio_flags=MediaStream.REQUIRED,
+            video_flags=MediaStream.IGNORE,
+        )
+        await client.change_stream(chat_id, s)
+    except Exception as e:
+        if mystic:
+            try:
+                await mystic.delete()
+            except Exception:
+                pass
+        raise
+
+    await put_queue(
+        chat_id,
+        original_chat_id,
+        file_path if direct else f"vid_{vidid}",
+        title,
+        duration_min,
+        "🤖 AutoPlay",
+        vidid,
+        0,
+        "audio",
+    )
+
+    from RONALDO_MUSIC.utils.database import add_active_chat, music_on
+    await add_active_chat(chat_id)
+    await music_on(chat_id)
+
+    try:
+        img = await get_thumb(vidid)
+        language = await get_lang(chat_id)
+        _ = get_string(language)
+        button = stream_markup(_, vidid, chat_id)
+        if mystic:
+            await mystic.delete()
+        run = await app.send_photo(
+            chat_id=original_chat_id,
+            photo=img,
+            caption=(
+                f"🎵 <b>ᴀᴜᴛᴏᴘʟᴀʏ ᴍᴏᴅᴇ</b>\n\n"
+                f"🎶 <b>{title}</b>\n"
+                f"⏱ {duration_min}\n"
+                f"🤖 ʙʏ: AutoPlay Bot"
+            ),
+            reply_markup=InlineKeyboardMarkup(button),
+            has_spoiler=True,
+        )
+        db[chat_id][0]["mystic"] = run
+        db[chat_id][0]["markup"] = "stream"
+    except Exception:
+        pass
 
 
 async def _clear_(chat_id):
@@ -377,6 +501,14 @@ class Call(PyTgCalls):
             if popped:
                 await auto_clean(popped)
             if not check:
+                # Queue is empty — check if autoplay is on
+                if await is_autoplay(chat_id):
+                    try:
+                        original_chat_id = (popped or {}).get("chat_id", chat_id) if popped else chat_id
+                        await _autoplay_next(client, chat_id, original_chat_id)
+                        return
+                    except Exception as ap_err:
+                        LOGGER(__name__).warning(f"autoplay failed for {chat_id}: {ap_err}")
                 await _clear_(chat_id)
                 try:
                     await client.leave_group_call(chat_id)
@@ -658,13 +790,36 @@ class Call(PyTgCalls):
                     await send_logger_card(chat_id, original_chat_id, title, user, "VIDEO" if video else "AUDIO")
         except Exception as e:
             LOGGER(__name__).error(f"change_stream playback error for {chat_id}: {type(e).__name__}: {e}")
-            try:
-                await app.send_message(
-                    original_chat_id,
-                    text=f"❍ ꜱᴛʀᴇᴀᴍ ᴇʀʀᴏʀ: <code>{type(e).__name__}</code>\n\nᴜsᴇ /skip ᴛᴏ ᴘʟᴀʏ ɴᴇxᴛ ᴛʀᴀᴄᴋ ᴏʀ /stop ᴛᴏ ᴇɴᴅ."
-                )
-            except Exception:
-                pass
+            # Auto-skip to next track on any playback error
+            if check and len(check) > 1:
+                try:
+                    check.pop(0)
+                except Exception:
+                    pass
+                try:
+                    await app.send_message(
+                        original_chat_id,
+                        text=f"⚠️ ᴇʀʀᴏʀ ᴘʟᴀʏɪɴɢ ᴛʀᴀᴄᴋ, ᴀᴜᴛᴏ-ꜱᴋɪᴘᴘɪɴɢ ᴛᴏ ɴᴇxᴛ...",
+                    )
+                except Exception:
+                    pass
+                try:
+                    await self.change_stream(client, chat_id)
+                except Exception:
+                    pass
+            else:
+                try:
+                    await app.send_message(
+                        original_chat_id,
+                        text=f"❍ ꜱᴛʀᴇᴀᴍ ᴇʀʀᴏʀ: <code>{type(e).__name__}</code>\n\nᴜꜱᴇ /play ᴛᴏ ᴘʟᴀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ."
+                    )
+                except Exception:
+                    pass
+                await _clear_(chat_id)
+                try:
+                    await client.leave_group_call(chat_id)
+                except Exception:
+                    pass
 
     async def ping(self):
         pings = []
