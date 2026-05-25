@@ -179,8 +179,13 @@ def PlayWrapper(command):
                 links[chat_id] = invitelink
 
                 try:
+                    await myu.edit(_["call_5"].format(app.mention))
+                except Exception:
+                    pass
+
+                try:
                     await userbot.resolve_peer(chat_id)
-                except:
+                except Exception:
                     pass
 
         return await command(
