@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.env
+*.session
+sessions/
+downloads/
+cache/
+log.txt
+push_to_github.sh
