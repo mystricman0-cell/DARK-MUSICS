@@ -81,6 +81,9 @@ AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", False))
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", None)
 SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", None)
 
+# Radio / Stream URL (used as default stream when nothing else is playing)
+STREAM_URL = getenv("STREAM_URL", None)
+
 # Maximum limit for fetching playlist's tracks
 PLAYLIST_FETCH_LIMIT = _safe_int("PLAYLIST_FETCH_LIMIT", 25)
 
