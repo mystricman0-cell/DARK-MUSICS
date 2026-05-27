@@ -74,65 +74,63 @@ import random as _random
 
 
 async def _autoplay_next(client, chat_id: int, original_chat_id: int):
-    """Fetch and play a random song from the autoplay pool when queue is empty."""
+    """Search a random trending song and stream it when the queue is empty."""
+    from pyrogram.types import InlineKeyboardMarkup
     from RONALDO_MUSIC.utils.stream.queue import put_queue
     from RONALDO_MUSIC.utils.thumbnails import get_thumb
-    from RONALDO_MUSIC.utils.inline.play import stream_markup, telegram_markup
-    from pyrogram.types import InlineKeyboardMarkup
+    from RONALDO_MUSIC.utils.inline.play import stream_markup
 
+    # Pick a random query and search YouTube
     query = _random.choice(_AUTOPLAY_POOL)
-    try:
-        details, vidid = await YouTube.track(query)
-    except Exception:
-        raise
+    details, vidid = await YouTube.track(query)
 
-    title = details.get("title", query)[:50]
-    duration_min = details.get("duration_min", "0:00") or "0:00"
+    title = (details.get("title") or query)[:50]
+    duration_min = details.get("duration_min") or "0:00"
 
-    # Download
-    file_path = None
+    # Notify user — keep reference to delete later
+    notify = None
     try:
-        mystic = await app.send_message(original_chat_id,
-            f"🎵 ᴀᴜᴛᴏᴘʟᴀʏ: <b>{title}</b>\n⏳ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...")
+        notify = await app.send_message(
+            original_chat_id,
+            f"🎵 <b>ᴀᴜᴛᴏᴘʟᴀʏ</b> — ꜱᴇᴀʀᴄʜɪɴɢ: <b>{title}</b>..."
+        )
     except Exception:
-        mystic = None
+        pass
 
+    # Download audio
     try:
-        file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=False)
+        file_path, direct = await YouTube.download(vidid, notify, videoid=True, video=False)
     except Exception:
+        # Retry once with a different song
         try:
-            file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=False)
+            query2 = _random.choice(_AUTOPLAY_POOL)
+            details2, vidid = await YouTube.track(query2)
+            title = (details2.get("title") or query2)[:50]
+            duration_min = details2.get("duration_min") or "0:00"
+            file_path, direct = await YouTube.download(vidid, notify, videoid=True, video=False)
         except Exception:
-            if mystic:
+            if notify:
                 try:
-                    await mystic.delete()
+                    await notify.delete()
                 except Exception:
                     pass
             raise
 
-    stream = __import__("pytgcalls.types", fromlist=["MediaStream"]).MediaStream
-    audio_q = __import__("pytgcalls.types", fromlist=["AudioQuality"]).AudioQuality
-    try:
-        from pytgcalls.types import MediaStream, AudioQuality
-        s = MediaStream(
-            file_path,
-            audio_parameters=AudioQuality.HIGH,
-            audio_flags=MediaStream.REQUIRED,
-            video_flags=MediaStream.IGNORE,
-        )
-        await client.change_stream(chat_id, s)
-    except Exception as e:
-        if mystic:
-            try:
-                await mystic.delete()
-            except Exception:
-                pass
-        raise
+    # Switch the stream on the same pytgcalls client (bot is still in VC)
+    s = MediaStream(
+        file_path,
+        audio_parameters=AudioQuality.HIGH,
+        audio_flags=MediaStream.REQUIRED,
+        video_flags=MediaStream.IGNORE,
+    )
+    await client.change_stream(chat_id, s)
 
+    # Add to in-memory queue so next StreamAudioEnded keeps the chain going
+    queue_file = file_path if direct else f"vid_{vidid}"
     await put_queue(
         chat_id,
         original_chat_id,
-        file_path if direct else f"vid_{vidid}",
+        queue_file,
         title,
         duration_min,
         "🤖 AutoPlay",
@@ -141,31 +139,30 @@ async def _autoplay_next(client, chat_id: int, original_chat_id: int):
         "audio",
     )
 
-    from RONALDO_MUSIC.utils.database import add_active_chat, music_on
-    await add_active_chat(chat_id)
-    await music_on(chat_id)
-
+    # Send now-playing card
     try:
+        if notify:
+            await notify.delete()
         img = await get_thumb(vidid)
         language = await get_lang(chat_id)
         _ = get_string(language)
         button = stream_markup(_, vidid, chat_id)
-        if mystic:
-            await mystic.delete()
         run = await app.send_photo(
             chat_id=original_chat_id,
             photo=img,
             caption=(
                 f"🎵 <b>ᴀᴜᴛᴏᴘʟᴀʏ ᴍᴏᴅᴇ</b>\n\n"
                 f"🎶 <b>{title}</b>\n"
-                f"⏱ {duration_min}\n"
-                f"🤖 ʙʏ: AutoPlay Bot"
+                f"⏱ {duration_min}\n\n"
+                f"ǫᴜᴇᴜᴇ ᴋʜᴀᴛᴀᴍ ʜᴏɴᴇ ᴘᴀʀ ʙᴏᴛ ᴋʜᴜᴅ ꜱᴇ ʙᴀᴊᴀ ʀʜᴀ ʜᴀɪ 🤖\n"
+                f"ʙᴀɴᴅ ᴋᴀʀɴᴇ ᴋᴇ ʟɪᴇ: /autoplay"
             ),
             reply_markup=InlineKeyboardMarkup(button),
             has_spoiler=True,
         )
-        db[chat_id][0]["mystic"] = run
-        db[chat_id][0]["markup"] = "stream"
+        if db.get(chat_id):
+            db[chat_id][0]["mystic"] = run
+            db[chat_id][0]["markup"] = "stream"
     except Exception:
         pass
 
