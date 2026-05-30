@@ -95,6 +95,17 @@ def _cookies_opts() -> dict:
     return {}
 
 
+def _is_bot_blocked(err: Exception) -> bool:
+    """Check if error is due to YouTube bot detection / rate limiting."""
+    msg = str(err).lower()
+    return any(x in msg for x in [
+        "sign in", "bot", "confirm you", "429", "rate limit",
+        "too many requests", "precondition", "verification",
+        "please sign", "not a bot", "captcha", "unavailable",
+        "video unavailable", "private video",
+    ])
+
+
 async def _ydl_search(query: str, is_url: bool = False) -> dict | None:
     """
     yt-dlp based YouTube search — used as primary/fallback.
@@ -109,7 +120,14 @@ async def _ydl_search(query: str, is_url: bool = False) -> dict | None:
             "no_warnings": True,
             "extract_flat": True,
             "skip_download": True,
+            "nocheckcertificate": True,
+            "geo_bypass": True,
             "http_headers": _YT_HEADERS,
+            "extractor_args": {
+                "youtube": {
+                    "player_client": ["tv_embedded", "android_embedded"],
+                }
+            },
             **_cookies_opts(),
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -428,6 +446,7 @@ class YouTubeAPI:
                 ["ios"],
                 ["mweb"],
                 ["web"],
+                ["mediaconnect"],
             ]:
                 try:
                     ydl_optssx = {
@@ -438,15 +457,16 @@ class YouTubeAPI:
                         "quiet": True,
                         "no_warnings": True,
                         "nopart": True,
-                        "retries": 5,
-                        "fragment_retries": 5,
+                        "retries": 8,
+                        "fragment_retries": 8,
                         "socket_timeout": 30,
                         "http_headers": _YT_HEADERS,
+                        "prefer_free_formats": True,
                         "extractor_args": {
                             "youtube": {
                                 "player_client": player_client,
                                 "skip": ["hls", "dash"],
-                                "player_skip": ["configs"],
+                                "player_skip": ["webpage", "configs"],
                             }
                         },
                         "postprocessors": [{
@@ -469,6 +489,9 @@ class YouTubeAPI:
                     return os.path.join("downloads", f"{vid_id}.{info.get('ext', 'webm')}")
                 except Exception as e:
                     last_err = e
+                    # If bot blocked, no point trying other clients with same URL
+                    if _is_bot_blocked(e):
+                        break
                     continue
             raise Exception(f"Download failed: {last_err}")
 
@@ -482,6 +505,7 @@ class YouTubeAPI:
                 ["ios"],
                 ["mweb"],
                 ["web"],
+                ["mediaconnect"],
             ]:
                 try:
                     ydl_optssx = {
@@ -492,14 +516,14 @@ class YouTubeAPI:
                         "quiet": True,
                         "no_warnings": True,
                         "merge_output_format": "mp4",
-                        "retries": 5,
-                        "fragment_retries": 5,
+                        "retries": 8,
+                        "fragment_retries": 8,
                         "socket_timeout": 30,
                         "http_headers": _YT_HEADERS,
                         "extractor_args": {
                             "youtube": {
                                 "player_client": player_client,
-                                "player_skip": ["configs"],
+                                "player_skip": ["webpage", "configs"],
                             }
                         },
                         **cookies,
@@ -513,6 +537,8 @@ class YouTubeAPI:
                     return os.path.join("downloads", f"{vid_id}.{info.get('ext', 'mp4')}")
                 except Exception as e:
                     last_err = e
+                    if _is_bot_blocked(e):
+                        break
                     continue
             raise Exception(f"Video download failed: {last_err}")
 

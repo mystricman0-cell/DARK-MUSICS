@@ -154,6 +154,8 @@ async def stream(
         status = True if video else None
         last_dl_err = None
         downloaded = False
+
+        # Attempt 1 & 2: normal download with retries
         for _attempt in range(2):
             try:
                 file_path, direct = await YouTube.download(
@@ -164,11 +166,53 @@ async def stream(
             except Exception as _e:
                 last_dl_err = _e
                 await asyncio.sleep(2)
+
+        # Attempt 3: bot blocked — try Spotify-assisted alternative search
         if not downloaded:
+            try:
+                from RONALDO_MUSIC.platforms.Youtube import _is_bot_blocked, _ydl_search
+                from RONALDO_MUSIC.platforms.Youtube import _spotify_search_track
+                _bot_err = _is_bot_blocked(last_dl_err)
+                alt_vidid = None
+
+                if _bot_err:
+                    # Try Spotify to find the real title, then search YT again
+                    sp_info = await _spotify_search_track(title)
+                    if sp_info and sp_info.get("search_query"):
+                        alt_info = await _ydl_search(sp_info["search_query"], is_url=False)
+                        if alt_info:
+                            alt_vidid = alt_info["vidid"]
+                    # If Spotify didn't help, just search by title directly
+                    if not alt_vidid:
+                        alt_info = await _ydl_search(f"{title} audio", is_url=False)
+                        if alt_info:
+                            alt_vidid = alt_info["vidid"]
+
+                if alt_vidid and alt_vidid != vidid:
+                    try:
+                        file_path, direct = await YouTube.download(
+                            alt_vidid, mystic, videoid=True, video=status
+                        )
+                        vidid = alt_vidid
+                        downloaded = True
+                    except Exception:
+                        pass
+            except Exception:
+                pass
+
+        if not downloaded:
+            # Show a clean user-friendly error instead of raw yt-dlp error
+            from RONALDO_MUSIC.platforms.Youtube import _is_bot_blocked
+            if _is_bot_blocked(last_dl_err):
+                raise AssistantErr(
+                    "⚠️ <b>YouTube ɴᴇ ʙʟᴏᴄᴋ ᴋɪʏᴀ!</b>\n\n"
+                    "YouTube ᴀʙʜɪ ᴅᴏᴡɴʟᴏᴀᴅ ɴᴀʜɪ ᴅᴇ ʀᴀʜᴀ.\n"
+                    "ᴋᴜᴄʜ ᴅᴇʀ ʙᴀᴀᴅ ᴅᴏʙᴀʀᴀ ᴛʀʏ ᴋᴀʀᴏ ʏᴀ ᴋᴏɪ ᴅᴜsʀᴀ ɢᴀᴀɴᴀ ᴄʜᴜɴᴏ.\n\n"
+                    "💡 ᴛɪᴘ: Sᴘᴏᴛɪꜰʏ ʏᴀ SᴏᴜɴᴅCʟᴏᴜᴅ ʟɪɴᴋ ᴛʀʏ ᴋᴀʀᴏ!"
+                )
             raise AssistantErr(
-                f"❍ ᴅᴏᴡɴʟᴏᴀᴅ ꜰᴀɪʟᴇᴅ!\n\n"
-                f"<code>{str(last_dl_err)[:200]}</code>\n\n"
-                f"ᴋᴏɪ ᴅᴜsʀᴀ ɢᴀᴀɴᴀ ᴛʀʏ ᴋᴀʀᴏ ʏᴀ ᴅᴏʙᴀʀᴀ /play ᴋᴀʀᴏ."
+                "❍ <b>ᴅᴏᴡɴʟᴏᴀᴅ ꜰᴀɪʟᴇᴅ!</b>\n\n"
+                "ɢᴀᴀɴᴀ ᴅᴏᴡɴʟᴏᴀᴅ ɴᴀʜɪ ʜᴜᴀ. ᴋᴏɪ ᴅᴜsʀᴀ ɢᴀᴀɴᴀ ᴛʀʏ ᴋᴀʀᴏ."
             )
         if await is_active_chat(chat_id):
             await put_queue(
