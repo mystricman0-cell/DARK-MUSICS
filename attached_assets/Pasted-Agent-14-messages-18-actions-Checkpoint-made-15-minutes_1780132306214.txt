@@ -1,0 +1,86 @@
+Agent
+
+
+
+14 messages & 18 actions
+
+Checkpoint made
+15 minutes ago
+
+Worked for 7 minutes
+Mai jo khunga tum use GitHub ke repo me mere push kroge railway pe deployment hoga or haa sari chije railway ke variables me pehle se add hai okay
+
+15 minutes ago
+
+2 messages & 5 actions
+
+Worked for 58 seconds
+from pytgcalls import PyTgCalls
+from pytgcalls.types import MediaStream
+
+1. Ek global dictionary banayein sabhi chats ki queue list rakhne ke liye
+QUEUE = {}
+
+2. Agla gana automatic play karne ka helper function
+async def play_next_song(chat_id):
+if chat_id not in QUEUE or not QUEUE[chat_id]:
+# Agar queue me kuch nahi bacha to call leave kar do
+try:
+await call_py.leave_group_call(chat_id)
+except:
+pass
+return
+
+# Queue se agla link uthao (Lekin abhi hatao mat, shift baad me karenge)
+next_media = QUEUE[chat_id][0]
+try:
+    # Audio + Video stream setup
+    stream = MediaStream(
+        next_media["url"],
+        audio_parameters=MediaStream.AudioParameters(bitrate=48000),
+        video_parameters=MediaStream.VideoParameters(width=1280, height=720, fps=30)
+    )
+    
+    # Stream change karo bina call disconnect kiye
+    await call_py.change_stream(chat_id, stream)
+    
+except Exception as e:
+    print(f"Play karne me error aaya: {e}")
+    # Agar is gane me error aaya, to isko skip karke agle par jao
+    if QUEUE[chat_id]:
+        QUEUE[chat_id].pop(0)
+    await play_next_song(chat_id)
+
+🚀 3. MAIN EVENT HANDLER (Jab gana khatam hoga, ye apne aap chalega)
+@call_py.on_stream_end()
+async def stream_end_handler(client, update):
+chat_id = update.chat_id
+
+if chat_id in QUEUE and QUEUE[chat_id]:
+    # Jo gana abhi khatam hua, use queue se nikal do (Shift/Pop)
+    QUEUE[chat_id].pop(0)
+    
+    # Agla gana play karne ka function call karo
+    await play_next_song(chat_id)
+
+User command ke andar ka sample logic:
+chat_id = message.chat.id
+media_url = "http://example.com/video.mp4" # Jo user ne manga
+
+Agar is chat ki queue pehle se nahi bani, to khali list banao
+if chat_id not in QUEUE:
+QUEUE[chat_id] = []
+
+Gana queue me push karo
+QUEUE[chat_id].append({"url": media_url, "title": "Song Title"})
+
+Agar ye pehla gana hai (matlab bot abhi chup tha), to turant play karo
+if len(QUEUE[chat_id]) == 1:
+# Yahan aapka normal initial join_group_call wala logic aayega
+await call_py.join_group_call(chat_id, MediaStream(media_url))
+else:
+await message.reply("⏳ Queue me add kar diya gaya hai!")
+Mujhe mere bot me autoplay or que management kuch esi type ka cahhiye jo working ho sahi kro okay or GitHub repo me bhi changes push kro or haa play me jo khta hai na ki bot detect or kahta hai kuch time baad play kro usko bhi fix kro kyuki maine Spotify+youtube ka url api bnake dala hua hai railway me okay or GitHub pe push kro okay
+
+
+Show less
